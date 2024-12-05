@@ -59,11 +59,11 @@ function connect() {
     }
   };
 }
-
 inp.onchange = connect;
+connect();
 
 canvas.onmousemove = function(event){
-  if (wsw.readyState == WebSocket.OPEN) {
+  if (wsw?.readyState == WebSocket.OPEN) {
     let bound = canvas.getBoundingClientRect();
     let color = document.querySelector('input[type="color"]').value;
     wsw.send(`{
