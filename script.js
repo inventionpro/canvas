@@ -4,7 +4,7 @@ let wsw;
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
-function drawPixel(x, y, r, g, b) {
+function setPixel(x, y, r, g, b) {
   ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
   ctx.fillRect(x, y, 1, 1);
 }
