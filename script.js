@@ -24,8 +24,7 @@ inp.onchange = function() {
     offset += 1;
 
     if (messageType !== 0x01) {
-      console.error('Invalid Type');
-      return;
+      console.error('Unknown Type: '+messageType);
     }
 
     // Read the Number of Pixels (2 bytes, Big Endian)
