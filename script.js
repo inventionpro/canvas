@@ -54,6 +54,6 @@ inp.onchange = function() {
       img[(x+(y*1024))*4 + 3] = 255;
     }
 
-    ctx.putImageData(new ImageData(img), 0, 0);
+    ctx.putImageData(new ImageData(img, 1024, 1024), 0, 0);
   };
 }
