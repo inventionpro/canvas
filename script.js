@@ -13,7 +13,7 @@ let inp = document.querySelector('input');
 inp.onchange = function() {
   if (wsr) wsr.close();
   if (wsw) wsw.close();
-  let url = inp.value.split('://')[1].split('/')[0];
+  let url = inp.value.split('://').slice(-1)[0].split('/')[0];
   wsr = new WebSocket('wss://'+url+'/ws/stream');
   wsr.binaryType = "arraybuffer";
   wsw = new WebSocket('wss://'+url+'/ws/draw');
