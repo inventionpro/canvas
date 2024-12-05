@@ -10,13 +10,15 @@ function setPixel(x, y, r, g, b) {
 }
 
 let inp = document.querySelector('input');
-inp.onchange = function() {
+function connect() {
   if (wsr) wsr.close();
   if (wsw) wsw.close();
   let url = inp.value.split('://').slice(-1)[0].split('/')[0];
   wsr = new WebSocket('wss://'+url+'/ws/stream');
   wsr.binaryType = "arraybuffer";
+  wsr.onclose = connect;
   wsw = new WebSocket('wss://'+url+'/ws/draw');
+  wsw.onclose = connect;
 
   wsr.onmessage = function(event) {
     let view = new DataView(event.data);
@@ -57,6 +59,8 @@ inp.onchange = function() {
     }
   };
 }
+
+inp.onchange = connect;
 
 canvas.onmousemove = function(event){
   if (wsw) {
