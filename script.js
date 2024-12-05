@@ -37,16 +37,16 @@ inp.onchange = function() {
       // Read X Coordinate (2 bytes, Big Endian)
       const x = view.getUint16(offset);
       offset += 2;
-  
+
       // Read Y Coordinate (2 bytes, Big Endian)
       const y = view.getUint16(offset);
       offset += 2;
-  
+
       // Read Red, Green, and Blue (1 byte each)
       const red = view.getUint8(offset++);
       const green = view.getUint8(offset++);
       const blue = view.getUint8(offset++);
-  
+
       // Store pixel data
       img[(x+(y*1024))*4] = red;
       img[(x+(y*1024))*4 + 1] = green;
@@ -54,6 +54,6 @@ inp.onchange = function() {
       img[(x+(y*1024))*4 + 3] = 255;
     }
 
-    ctx.putImageData(img, x, y);
+    ctx.putImageData(img, 0, 0);
   };
 }
