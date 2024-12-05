@@ -7,10 +7,16 @@
         color: #fff;
         background: #000;
       }
+      canvas {
+        display: block;
+        width: 100dvh;
+        height: 100dvh;
+        image-rendering: pixelated;
+      }
     </style>
   </head>
   <body>
-    <input placeholder="url, no :// or final /">
+    <input placeholder="url">
     <br>
     <canvas width="1024" height="1024"></canvas>
     <script src="./script.js"></script>
