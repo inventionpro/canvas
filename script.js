@@ -1,24 +1,59 @@
 let wsr;
 let wsw;
 
+const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+
 let inp = document.querySelector('input');
 inp.onchange = function() {
   if (wsr) wsr.close();
   if (wsw) wsw.close();
-  wsr = new WebSocket('ws://'+inp.value+'/ws/stream');
-  wsw = new WebSocket('ws://'+inp.value+'/ws/draw');
+  wsr = new WebSocket('wss://'+inp.value+'/ws/stream');
+  wsr.binaryType = "arraybuffer";
+  wsw = new WebSocket('wss://'+inp.value+'/ws/draw');
 
-  wsr.addEventListener("open", (event) => {
-    socket.send("Hello Server!");
-  });
-  wsr.addEventListener("message", (event) => {
-    console.log("Message from server ", event.data);
-  });
+  wsr.onmessage = function(event) {
+    let view = new DataView(event.data);
+    const imageData = ctx.createImageData(1, 1);
+    const img = imageData.data;
 
-  wsw.addEventListener("open", (event) => {
-    socket.send("Hello Server!");
-  });
-  wsw.addEventListener("message", (event) => {
-    console.log("Message from server ", event.data);
-  });
+    let offset = 0;
+
+    // Read the Message Type (1 byte)
+    const messageType = view.getUint8(offset);
+    offset += 1;
+
+    if (messageType !== 0x01) {
+      console.error('Invalid Type');
+      return;
+    }
+
+    // Read the Number of Pixels (2 bytes, Big Endian)
+    const numberOfPixels = view.getUint16(offset);
+    offset += 2;
+
+    // Read each pixel's data (7 bytes per pixel)
+    for (let i = 0; i < numberOfPixels; i++) {
+      // Read X Coordinate (2 bytes, Big Endian)
+      const x = dataView.getUint16(offset);
+      offset += 2;
+  
+      // Read Y Coordinate (2 bytes, Big Endian)
+      const y = dataView.getUint16(offset);
+      offset += 2;
+  
+      // Read Red, Green, and Blue (1 byte each)
+      const red = dataView.getUint8(offset++);
+      const green = dataView.getUint8(offset++);
+      const blue = dataView.getUint8(offset++);
+  
+      // Store pixel data
+      img[(x+(y*1024))*4] = red;
+      img[(x+(y*1024))*4 + 1] = green;
+      img[(x+(y*1024))*4 + 2] = blue;
+      img[(x+(y*1024))*4 + 3] = 255;
+    }
+
+    ctx.putImageData(img, x, y);
+  };
 }
