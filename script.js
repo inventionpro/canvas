@@ -13,7 +13,7 @@ inp.onchange = function() {
   wsw = new WebSocket('wss://'+inp.value+'/ws/draw');
 
   wsr.onmessage = function(event) {
-    let view = new DataView(event.data);
+    let view = new view(event.data);
     const imageData = ctx.createImageData(1, 1);
     const img = imageData.data;
 
@@ -35,17 +35,17 @@ inp.onchange = function() {
     // Read each pixel's data (7 bytes per pixel)
     for (let i = 0; i < numberOfPixels; i++) {
       // Read X Coordinate (2 bytes, Big Endian)
-      const x = dataView.getUint16(offset);
+      const x = view.getUint16(offset);
       offset += 2;
   
       // Read Y Coordinate (2 bytes, Big Endian)
-      const y = dataView.getUint16(offset);
+      const y = view.getUint16(offset);
       offset += 2;
   
       // Read Red, Green, and Blue (1 byte each)
-      const red = dataView.getUint8(offset++);
-      const green = dataView.getUint8(offset++);
-      const blue = dataView.getUint8(offset++);
+      const red = view.getUint8(offset++);
+      const green = view.getUint8(offset++);
+      const blue = view.getUint8(offset++);
   
       // Store pixel data
       img[(x+(y*1024))*4] = red;
