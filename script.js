@@ -67,8 +67,8 @@ canvas.onmousemove = function(event){
     let bound = canvas.getBoundingClientRect();
     let color = document.querySelector('input[type="color"]').value;
     wsw.send(`{
-  "x": ${event.x-bound.left},
-  "y": ${event.y-bound.top},
+  "x": ${Math.round(event.x-bound.left)},
+  "y": ${Math.round(event.y-bound.top)},
   "r": ${parseInt(color.substr(1,2), 16)},
   "g": ${parseInt(color.substr(3,2), 16)},
   "b": ${parseInt(color.substr(5,2), 16)}
