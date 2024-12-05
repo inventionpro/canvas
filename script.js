@@ -4,6 +4,19 @@ let wsw;
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
+function setPixel(x, y, r, g, b, a = 255) {
+  const imageData = ctx.createImageData(1024, 1024);
+  const data = imageData.data;
+
+  data[0] = r;
+  data[1] = g;
+  data[2] = b;
+  data[3] = a;
+
+  // Draw the pixel on the canvas
+  ctx.putImageData(imageData, x, y);
+}
+
 let inp = document.querySelector('input');
 inp.onchange = function() {
   if (wsr) wsr.close();
@@ -14,7 +27,7 @@ inp.onchange = function() {
 
   wsr.onmessage = function(event) {
     let view = new DataView(event.data);
-    const imageData = ctx.createImageData(1, 1);
+    const imageData = ctx.createImageData(1024, 1024);
     const img = imageData.data;
 
     let offset = 0;
@@ -53,6 +66,6 @@ inp.onchange = function() {
       img[(x+(y*1024))*4 + 3] = 255;
     }
 
-    if (img.length===1024*4) ctx.putImageData(new ImageData(img, 1024, 1024), 0, 0);
+    ctx.putImageData(imageData, 0, 0);
   };
 }
