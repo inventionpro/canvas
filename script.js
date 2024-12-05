@@ -63,14 +63,15 @@ function connect() {
 inp.onchange = connect;
 
 canvas.onmousemove = function(event){
-  if (wsw) {
+  if (wsw.readyState == WebSocket.OPEN) {
     let bound = canvas.getBoundingClientRect();
+    let color = document.querySelector('input[type="color"]').value;
     wsw.send(`{
   "x": ${event.x-bound.left},
   "y": ${event.y-bound.top},
-  "r": 255,
-  "g": 0,
-  "b": 0
+  "r": ${parseInt(color.substr(1,2), 16)},
+  "g": ${parseInt(color.substr(3,2), 16)},
+  "b": ${parseInt(color.substr(5,2), 16)}
 }`)
   }
 }
