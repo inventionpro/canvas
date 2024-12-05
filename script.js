@@ -13,14 +13,13 @@ let inp = document.querySelector('input');
 inp.onchange = function() {
   if (wsr) wsr.close();
   if (wsw) wsw.close();
-  wsr = new WebSocket('wss://'+inp.value+'/ws/stream');
+  let url = inp.value.split('://')[1].split('/')[0];
+  wsr = new WebSocket('wss://'+url+'/ws/stream');
   wsr.binaryType = "arraybuffer";
-  wsw = new WebSocket('wss://'+inp.value+'/ws/draw');
+  wsw = new WebSocket('wss://'+url+'/ws/draw');
 
   wsr.onmessage = function(event) {
     let view = new DataView(event.data);
-    /*const imageData = ctx.createImageData(1024, 1024);
-    const img = imageData.data;*/
 
     let offset = 0;
 
@@ -29,7 +28,7 @@ inp.onchange = function() {
     offset += 1;
 
     if (messageType !== 0x01) {
-      if (messageType !== 0x00) {// Should be 1 but server returns 0
+      if (messageType !== 0x00) { // Should be 1 but server returns 0
         console.error('Unknown Type: '+messageType);
       }
     }
@@ -54,13 +53,19 @@ inp.onchange = function() {
       const blue = view.getUint8(offset++);
 
       // Store pixel data
-      setPixel(x, y, red, green, blue);/*
-      img[(x+(y*1024))*4] = red;
-      img[(x+(y*1024))*4 + 1] = green;
-      img[(x+(y*1024))*4 + 2] = blue;
-      img[(x+(y*1024))*4 + 3] = 255;*/
+      setPixel(x, y, red, green, blue);
     }
-
-    //ctx.putImageData(imageData, 0, 0);
   };
+}
+
+canvas.onmousemove = function(event){
+  if (wsw) {
+    wsw.send(`{
+  "x": ${event.x},
+  "y": ${event.y},
+  "r": 255,
+  "g": 0,
+  "b": 0
+}`)
+  }
 }
