@@ -60,9 +60,10 @@ inp.onchange = function() {
 
 canvas.onmousemove = function(event){
   if (wsw) {
+    let bound = canvas.getBoundingClientRect();
     wsw.send(`{
-  "x": ${event.x},
-  "y": ${event.y},
+  "x": ${event.x-bound.left},
+  "y": ${event.y-bound.top},
   "r": 255,
   "g": 0,
   "b": 0
