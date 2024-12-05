@@ -4,14 +4,14 @@ let wsw;
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
-function setPixel(x, y, r, g, b, a = 255) {
-  const imageData = ctx.createImageData(1024, 1024);
+function setPixel(x, y, r, g, b) {
+  const imageData = ctx.createImageData(1, 1);
   const data = imageData.data;
 
   data[0] = r;
   data[1] = g;
   data[2] = b;
-  data[3] = a;
+  data[3] = 255;
 
   // Draw the pixel on the canvas
   ctx.putImageData(imageData, x, y);
@@ -27,8 +27,8 @@ inp.onchange = function() {
 
   wsr.onmessage = function(event) {
     let view = new DataView(event.data);
-    const imageData = ctx.createImageData(1024, 1024);
-    const img = imageData.data;
+    /*const imageData = ctx.createImageData(1024, 1024);
+    const img = imageData.data;*/
 
     let offset = 0;
 
@@ -37,7 +37,9 @@ inp.onchange = function() {
     offset += 1;
 
     if (messageType !== 0x01) {
-      console.error('Unknown Type: '+messageType);
+      if (messageType !== 0x00) {// Should be 1 but server returns 0
+        console.error('Unknown Type: '+messageType);
+      }
     }
 
     // Read the Number of Pixels (2 bytes, Big Endian)
@@ -60,12 +62,13 @@ inp.onchange = function() {
       const blue = view.getUint8(offset++);
 
       // Store pixel data
+      setPixel(x, y, red, green, blue);/*
       img[(x+(y*1024))*4] = red;
       img[(x+(y*1024))*4 + 1] = green;
       img[(x+(y*1024))*4 + 2] = blue;
-      img[(x+(y*1024))*4 + 3] = 255;
+      img[(x+(y*1024))*4 + 3] = 255;*/
     }
 
-    ctx.putImageData(imageData, 0, 0);
+    //ctx.putImageData(imageData, 0, 0);
   };
 }
