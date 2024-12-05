@@ -4,20 +4,30 @@
     <title>Vibe Canvas</title>
     <style>
       body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         color: #fff;
         background: #000;
       }
+      span {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
       canvas {
         display: block;
-        width: 100dvh;
-        height: 100dvh;
+        width: 95dvh;
+        height: 95dvh;
         image-rendering: pixelated;
       }
     </style>
   </head>
   <body>
-    <input placeholder="url">
-    <br>
+    <span>
+      <input placeholder="url" value="ojt4tvgucyscqwfewafogcx2im.srv.us">
+      <input type="color">
+    </span>
     <canvas width="1024" height="1024"></canvas>
     <script src="./script.js"></script>
   </body>
