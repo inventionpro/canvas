@@ -13,7 +13,7 @@ inp.onchange = function() {
   wsw = new WebSocket('wss://'+inp.value+'/ws/draw');
 
   wsr.onmessage = function(event) {
-    let view = new view(event.data);
+    let view = new DataView(event.data);
     const imageData = ctx.createImageData(1, 1);
     const img = imageData.data;
 
