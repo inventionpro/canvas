@@ -10,10 +10,18 @@
       <input id="size" placeholder="size" type="number" value="2048">
       <input id="pixelated" type="checkbox" onchange="canvas.style['image-rendering']=(this.checked?'pixelated':'auto')" checked>
       <label for="pixelated">Pixelated?</label>
-      <span> | </span>
-      <input id="color" type="color">
     </span>
-    <canvas id="canvas" width="2048" height="2048" style="image-rendering:pixelated"></canvas>
+    <div class="canvas-area">
+      <canvas id="canvas" width="2048" height="2048" style="image-rendering:pixelated"></canvas>
+      <div>
+        <p>Painting</p>
+        <label>Color: <input id="color" type="color"></label>
+        <br>
+        <input id="file" type="file" accept="image/*" style="display:none" aria-hidden="true">
+        <canvas id="file-canvas" style="display:none"></canvas>
+        <button onclick="imag()">Load image (unstable)</button>
+      </div>
+    </div>
     <script src="./script.js"></script>
   </body>
 </html>

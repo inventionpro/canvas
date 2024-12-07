@@ -103,3 +103,47 @@ canvas.onmousemove = function(event){
   "b": ${parseInt(color.substr(5,2), 16)}
 }`)
 };
+
+function imag() {
+  document.getElementById('file').click()
+}
+document.getElementById('file').onchange = function(event){
+  let file = event.target.files[0];
+  if (!file) return;
+  event.target.value = '';
+
+  let ox = prompt('X offset');
+  let oy = prompt('Y offset');
+
+  let fc = document.getElementById('file-canvas');
+  let fctx = fc.getContext('2d');
+  const img = new Image();
+  img.onload = () => {
+    fc.width = img.width;
+    fc.height = img.height;
+
+    fctx.drawImage(img, 0, 0);
+
+    const imageData = ctx.getImageData(0, 0, fc.width, fc.height);
+    const pixels = imageData.data;
+
+    for (let i = 0; i<pixels.length; i+=4) {
+      let idx = i/4;
+      let x = idx % img.width;
+      let y = Math.floor(idx / img.width);
+      wsw.send(`{
+  "x": ${x+ox},
+  "y": ${y+oy},
+  "r": ${pixels[i]},
+  "g": ${pixels[i+1]},
+  "b": ${pixels[i+2]}
+}`)
+    }
+  };
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}

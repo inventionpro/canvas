@@ -23,6 +23,9 @@ span {
   align-items: center;
 }
 
+.canvas-area {
+  display: flex;
+}
 canvas {
   display: block;
   width: 95dvh;
