@@ -14,7 +14,7 @@ window.addEventListener('mouseleave', () => {
 });
 
 const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
+let ctx = canvas.getContext('2d');
 
 function setPixel(x, y, r, g, b) {
   ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
@@ -84,10 +84,21 @@ connect();
 
 document.getElementById('size').onchange = function(){
   let size = document.getElementById('size').value;
-  let past = canvas.width;
-  canvas.width = size;
-  canvas.height = size;
-  if (past < size) connect();
+  if (canvas.width < size) {
+    canvas.width = size;
+    canvas.height = size;
+    connect();
+  } else {
+    const img = new Image();
+    img.src = canvas.toDataURL();
+    img.onload = () => {
+      canvas.width = size;
+      canvas.height = size;
+
+      ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+    };
+  }
 };
 
 canvas.onmousemove = function(event){
