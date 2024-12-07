@@ -149,10 +149,10 @@ document.getElementById('file').onchange = function(event){
 }
 
 function pp() {
-  let x = prompt('X');
-  let y = prompt('Y');
-  let width = prompt('width');
-  let height = prompt('height');
+  let x = Number(prompt('X'));
+  let y = Number(prompt('Y'));
+  let width = Number(prompt('width'));
+  let height = Number(prompt('height'));
   let color = document.getElementById('color').value;
   let r = parseInt(color.substr(1,2), 16);
   let g = parseInt(color.substr(3,2), 16);
