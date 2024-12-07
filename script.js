@@ -158,15 +158,31 @@ function pp() {
   let g = parseInt(color.substr(3,2), 16);
   let b = parseInt(color.substr(5,2), 16);
 
-  for (let xx = x; xx<x+width; xx++) {
-    for (let yy = y; yy<y+height; yy++) {
-      wsw.send(`{
+  if (document.getElementById('rainbow').checked) {
+    for (let xx = x; xx<x+width; xx++) {
+      for (let yy = y; yy<y+height; yy++) {
+        setTimeout(()=>{
+          wsw.send(`{
   "x": ${xx},
   "y": ${yy},
   "r": ${r},
   "g": ${g},
   "b": ${b}
 }`)
+        }, 1)
+      }
+    }
+  } else {
+    for (let xx = x; xx<x+width; xx++) {
+      for (let yy = y; yy<y+height; yy++) {
+        wsw.send(`{
+  "x": ${xx},
+  "y": ${yy},
+  "r": ${r},
+  "g": ${g},
+  "b": ${b}
+}`)
+      }
     }
   }
 }
