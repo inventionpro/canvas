@@ -8,9 +8,12 @@
     <span>
       <input id="url" placeholder="url" value="canvas.skycodee.pro">
       <input id="size" placeholder="size" type="number" value="2048">
+      <input id="pixelated" type="checkbox" onchange="canvas.style['image-rendering']=(this.checked?'pixelated':'auto')" checked>
+      <label for="pixelated">Pixelated?</label>
+      <span> | </span>
       <input id="color" type="color">
     </span>
-    <canvas id="canvas" width="2048" height="2048"></canvas>
+    <canvas id="canvas" width="2048" height="2048" style="image-rendering:pixelated"></canvas>
     <script src="./script.js"></script>
   </body>
 </html>

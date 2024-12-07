@@ -27,7 +27,6 @@ canvas {
   display: block;
   width: 95dvh;
   height: 95dvh;
-  image-rendering: pixelated;
 }
 #size {
   width: 50px;
