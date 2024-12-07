@@ -124,7 +124,7 @@ document.getElementById('file').onchange = function(event){
 
     fctx.drawImage(img, 0, 0);
 
-    const imageData = ctx.getImageData(0, 0, fc.width, fc.height);
+    const imageData = fctx.getImageData(0, 0, fc.width, fc.height);
     const pixels = imageData.data;
 
     for (let i = 0; i<pixels.length; i+=4) {
