@@ -21,12 +21,14 @@ function setPixel(x, y, r, g, b) {
   ctx.fillRect(x, y, 1, 1);
 }
 
-let inp = document.querySelector('input');
 function connect() {
   if (wsr) wsr.close();
   if (wsw) wsw.close();
   if (int) clearInterval(int);
-  let url = inp.value.split('://').slice(-1)[0].split('/')[0];
+  let size = document.getElementById('size').value;
+  document.getElementById('canvas').width = size;
+  document.getElementById('canvas').width = height;
+  let url = document.getElementById('url').value.split('://').slice(-1)[0].split('/')[0];
   wsr = new WebSocket('wss://'+url+'/ws/stream');
   wsr.binaryType = "arraybuffer";
   wsw = new WebSocket('wss://'+url+'/ws/draw');
@@ -80,14 +82,15 @@ function connect() {
     }
   };
 }
-inp.onchange = connect;
+document.getElementById('url').onchange = connect;
+document.getElementById('size').onchange = connect;
 connect();
 
 canvas.onmousemove = function(event){
   if (!isMouseDown) return;
   if (wsw?.readyState == WebSocket.OPEN) {
     let bound = canvas.getBoundingClientRect();
-    let color = document.querySelector('input[type="color"]').value;
+    let color = document.getElementById('color').value;
     wsw.send(`{
   "x": ${Math.round(event.x-bound.left)},
   "y": ${Math.round(event.y-bound.top)},
