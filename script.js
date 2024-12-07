@@ -90,14 +90,17 @@ document.getElementById('size').onchange = function(){
 };
 
 canvas.onmousemove = function(event){
+  let bound = canvas.getBoundingClientRect();
+  let size = document.getElementById('size').value;
+  let x = Math.ceil((event.x-bound.left)/bound.width*size);
+  let y = Math.ceil((event.y-bound.top)/bound.height*size);
+  document.getElementById('pos').innerText = ` | x: ${x} y: ${y}`;
   if (!isMouseDown) return;
   if (wsw?.readyState != WebSocket.OPEN) return;
-  let bound = canvas.getBoundingClientRect();
   let color = document.getElementById('color').value;
-  let size = document.getElementById('size').value;
   wsw.send(`{
-  "x": ${Math.ceil((event.x-bound.left)/bound.width*size)},
-  "y": ${Math.ceil((event.y-bound.top)/bound.height*size)},
+  "x": ${x},
+  "y": ${y},
   "r": ${parseInt(color.substr(1,2), 16)},
   "g": ${parseInt(color.substr(3,2), 16)},
   "b": ${parseInt(color.substr(5,2), 16)}
