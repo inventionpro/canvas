@@ -13,7 +13,7 @@ window.addEventListener('mouseleave', () => {
   isMouseDown = false;
 });
 
-const canvas = document.querySelector('canvas');
+const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 function setPixel(x, y, r, g, b) {
@@ -25,9 +25,6 @@ function connect() {
   if (wsr) wsr.close();
   if (wsw) wsw.close();
   if (int) clearInterval(int);
-  let size = document.getElementById('size').value;
-  document.getElementById('canvas').width = size;
-  document.getElementById('canvas').height = size;
   let url = document.getElementById('url').value.split('://').slice(-1)[0].split('/')[0];
   wsr = new WebSocket('wss://'+url+'/ws/stream');
   wsr.binaryType = "arraybuffer";
@@ -83,8 +80,15 @@ function connect() {
   };
 }
 document.getElementById('url').onchange = connect;
-document.getElementById('size').onchange = connect;
 connect();
+
+document.getElementById('size').onchange = function(){
+  let size = document.getElementById('size').value;
+  let past = canvas.width;
+  canvas.width = size;
+  canvas.height = size;
+  if (past < size) connect();
+};
 
 canvas.onmousemove = function(event){
   if (!isMouseDown) return;
