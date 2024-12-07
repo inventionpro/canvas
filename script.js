@@ -131,15 +131,13 @@ document.getElementById('file').onchange = function(event){
       let idx = i/4;
       let x = idx % img.width;
       let y = Math.floor(idx / img.width);
-      let a = `{
+      wsw.send(`{
   "x": ${x+ox},
   "y": ${y+oy},
   "r": ${pixels[i]},
   "g": ${pixels[i+1]},
   "b": ${pixels[i+2]}
-}`;
-      console.log(x,y,a);
-      wsw.send(a)
+}`)
     }
   };
 
