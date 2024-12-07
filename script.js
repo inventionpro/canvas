@@ -112,8 +112,8 @@ document.getElementById('file').onchange = function(event){
   if (!file) return;
   event.target.value = '';
 
-  let ox = prompt('X offset');
-  let oy = prompt('Y offset');
+  let ox = prompt('X offset')??0;
+  let oy = prompt('Y offset')??0;
 
   let fc = document.getElementById('file-canvas');
   let fctx = fc.getContext('2d');
@@ -131,13 +131,15 @@ document.getElementById('file').onchange = function(event){
       let idx = i/4;
       let x = idx % img.width;
       let y = Math.floor(idx / img.width);
-      wsw.send(`{
+      let a = `{
   "x": ${x+ox},
   "y": ${y+oy},
   "r": ${pixels[i]},
   "g": ${pixels[i+1]},
   "b": ${pixels[i+2]}
-}`)
+}`;
+      console.log(x,y,a);
+      wsw.send(a)
     }
   };
 
