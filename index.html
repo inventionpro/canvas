@@ -6,10 +6,11 @@
   </head>
   <body>
     <span>
-      <input id="url" placeholder="url" value="canvas.skycodee.pro">
-      <input id="size" placeholder="size" type="number" value="2048">
+      <input id="url" placeholder="url" value="canvas.skycodee.pro" aria-label="Canvas server url">
+      <input id="size" placeholder="size" type="number" value="2048" aria-label="Canvas size">
       <input id="pixelated" type="checkbox" onchange="canvas.style['image-rendering']=(this.checked?'pixelated':'auto')" checked>
       <label for="pixelated">Pixelated?</label>
+      <span id="pos"> | x: 0 y: 0</span>
     </span>
     <div class="canvas-area">
       <canvas id="canvas" width="2048" height="2048" style="image-rendering:pixelated"></canvas>
