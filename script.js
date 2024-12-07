@@ -112,8 +112,8 @@ document.getElementById('file').onchange = function(event){
   if (!file) return;
   event.target.value = '';
 
-  let ox = prompt('X offset')??0;
-  let oy = prompt('Y offset')??0;
+  let ox = Number(prompt('X offset')??0);
+  let oy = Number(prompt('Y offset')??0);
 
   let fc = document.getElementById('file-canvas');
   let fctx = fc.getContext('2d');
