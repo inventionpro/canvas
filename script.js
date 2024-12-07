@@ -161,15 +161,16 @@ function pp() {
   if (document.getElementById('rainbow').checked) {
     for (let xx = x; xx<x+width; xx++) {
       for (let yy = y; yy<y+height; yy++) {
-        setTimeout(()=>{
-          wsw.send(`{
+        r = Math.floor(Math.random()*256);
+        g = Math.floor(Math.random()*256);
+        b = Math.floor(Math.random()*256);
+        wsw.send(`{
   "x": ${xx},
   "y": ${yy},
   "r": ${r},
   "g": ${g},
   "b": ${b}
 }`)
-        }, 1)
       }
     }
   } else {
