@@ -84,34 +84,22 @@ connect();
 
 document.getElementById('size').onchange = function(){
   let size = document.getElementById('size').value;
-  if (canvas.width < size) {
-    canvas.width = size;
-    canvas.height = size;
-    connect();
-  } else {
-    const img = new Image();
-    img.src = canvas.toDataURL();
-    img.onload = () => {
-      canvas.width = size;
-      canvas.height = size;
-
-      ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-    };
-  }
+  canvas.width = size;
+  canvas.height = size;
+  connect();
 };
 
 canvas.onmousemove = function(event){
   if (!isMouseDown) return;
-  if (wsw?.readyState == WebSocket.OPEN) {
-    let bound = canvas.getBoundingClientRect();
-    let color = document.getElementById('color').value;
-    wsw.send(`{
-  "x": ${Math.round(event.x-bound.left)},
-  "y": ${Math.round(event.y-bound.top)},
+  if (wsw?.readyState != WebSocket.OPEN) return;
+  let bound = canvas.getBoundingClientRect();
+  let color = document.getElementById('color').value;
+  let size = document.getElementById('size').value;
+  wsw.send(`{
+  "x": ${Math.floor(bound.width/event.x-bound.left)*size},
+  "y": ${Math.floor(bound.height/event.y-bound.top)*size},
   "r": ${parseInt(color.substr(1,2), 16)},
   "g": ${parseInt(color.substr(3,2), 16)},
   "b": ${parseInt(color.substr(5,2), 16)}
 }`)
-  }
-}
+};
