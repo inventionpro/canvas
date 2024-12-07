@@ -149,17 +149,17 @@ document.getElementById('file').onchange = function(event){
 }
 
 function pp() {
-  let x = Number(prompt('X'));
-  let y = Number(prompt('Y'));
-  let width = Number(prompt('width'));
-  let height = Number(prompt('height'));
+  let x = Number(prompt('X')??0);
+  let y = Number(prompt('Y')??0);
+  let width = Number(prompt('width')??10);
+  let height = Number(prompt('height')??10);
   let color = document.getElementById('color').value;
   let r = parseInt(color.substr(1,2), 16);
   let g = parseInt(color.substr(3,2), 16);
   let b = parseInt(color.substr(5,2), 16);
 
   for (let xx = x; xx<x+width; xx++) {
-    for (let yy = y; yy<y+height; y++) {
+    for (let yy = y; yy<y+height; yy++) {
       wsw.send(`{
   "x": ${xx},
   "y": ${yy},
