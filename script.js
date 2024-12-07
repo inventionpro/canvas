@@ -1,5 +1,17 @@
 let wsr;
 let wsw;
+let int;
+
+let isMouseDown = false;
+window.addEventListener('mousedown', () => {
+  isMouseDown = true;
+});
+window.addEventListener('mouseup', () => {
+  isMouseDown = false;
+});
+window.addEventListener('mouseleave', () => {
+  isMouseDown = false;
+});
 
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
@@ -13,12 +25,21 @@ let inp = document.querySelector('input');
 function connect() {
   if (wsr) wsr.close();
   if (wsw) wsw.close();
+  if (int) clearInterval(int);
   let url = inp.value.split('://').slice(-1)[0].split('/')[0];
   wsr = new WebSocket('wss://'+url+'/ws/stream');
   wsr.binaryType = "arraybuffer";
-  //wsr.onclose = connect;
   wsw = new WebSocket('wss://'+url+'/ws/draw');
-  //wsw.onclose = connect;
+
+  int = setInterval(()=>{
+    if (wsr?.readyState == WebSocket.CLOSED) {
+      wsr = new WebSocket('wss://'+url+'/ws/stream');
+      wsr.binaryType = "arraybuffer";
+    }
+    if (wsw?.readyState == WebSocket.CLOSED) {
+      wsw = new WebSocket('wss://'+url+'/ws/draw');
+    }
+  }, 2000)
 
   wsr.onmessage = function(event) {
     let view = new DataView(event.data);
@@ -63,6 +84,7 @@ inp.onchange = connect;
 connect();
 
 canvas.onmousemove = function(event){
+  if (!isMouseDown) return;
   if (wsw?.readyState == WebSocket.OPEN) {
     let bound = canvas.getBoundingClientRect();
     let color = document.querySelector('input[type="color"]').value;
