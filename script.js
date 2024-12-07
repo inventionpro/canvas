@@ -96,8 +96,8 @@ canvas.onmousemove = function(event){
   let color = document.getElementById('color').value;
   let size = document.getElementById('size').value;
   wsw.send(`{
-  "x": ${Math.floor(bound.width/event.x-bound.left)*size},
-  "y": ${Math.floor(bound.height/event.y-bound.top)*size},
+  "x": ${Math.ceil((event.x-bound.left)/bound.width*size)},
+  "y": ${Math.ceil((event.y-bound.top)/bound.height*size)},
   "r": ${parseInt(color.substr(1,2), 16)},
   "g": ${parseInt(color.substr(3,2), 16)},
   "b": ${parseInt(color.substr(5,2), 16)}
