@@ -27,7 +27,7 @@ function connect() {
   if (int) clearInterval(int);
   let size = document.getElementById('size').value;
   document.getElementById('canvas').width = size;
-  document.getElementById('canvas').width = height;
+  document.getElementById('canvas').height = size;
   let url = document.getElementById('url').value.split('://').slice(-1)[0].split('/')[0];
   wsr = new WebSocket('wss://'+url+'/ws/stream');
   wsr.binaryType = "arraybuffer";
