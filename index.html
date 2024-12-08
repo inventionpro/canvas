@@ -18,8 +18,11 @@
       <input id="size" placeholder="size" type="number" value="2048" aria-label="Canvas size">
       <input id="pixelated" type="checkbox" onchange="canvas.style['image-rendering']=(this.checked?'pixelated':'auto')" checked>
       <label for="pixelated">Pixelated?</label>
+      <input id="hm" type="checkbox">
+      <label for="hm">Heatmap?</label>
     </span>
     <div class="canvas-area">
+      <canvas id="heatmap" width="2048" height="2048"></canvas>
       <canvas id="canvas" width="2048" height="2048" style="image-rendering:pixelated"></canvas>
       <div>
         <p>Painting</p>
