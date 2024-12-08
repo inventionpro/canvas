@@ -19,11 +19,11 @@ function connect() {
 
   wsr.onclose = function(){
     document.getElementById('status').innerText = 'Reconnecting';
-    setTimeout(connect, 100);
+    setTimeout(connect, 1000);
   }
   wsw.onclose = function(){
     document.getElementById('status').innerText = 'Reconnecting';
-    setTimeout(connect, 100);
+    setTimeout(connect, 1000);
   }
 
   wsr.onmessage = function(event) {
