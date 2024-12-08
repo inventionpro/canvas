@@ -8,9 +8,12 @@ function setPixel(x, y, r, g, b) {
 
 let wsr;
 let wsw;
+let heatmap = new Array(2048*2048).fill(0);
 function connect() {
   if (wsr) wsr.close();
   if (wsw) wsw.close();
+  let size = document.getElementById('size').value;
+  heatmap = new Array(size*size).fill(0);
   let url = document.getElementById('url').value.split('://').slice(-1)[0].split('/')[0];
   wsr = new WebSocket('wss://'+url+'/ws/stream');
   wsr.binaryType = "arraybuffer";
@@ -63,6 +66,11 @@ function connect() {
 
       // Store pixel data
       setPixel(x, y, red, green, blue);
+      let idx = x+(y*size);
+      if (idx<=size*size) {
+        heatmap[idk] += 1;
+        paintHeat();
+      }
     }
   };
 }
@@ -203,3 +211,12 @@ setInterval(()=>{
     document.getElementById('color').value = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
   }
 }, 10)
+
+var paintHeat = ()=>{};
+document.getElementById('hm').onchange = function(event){
+  if (event.target.checked) {
+    paintHeat = function(){}
+  } else {
+    paintHeat = ()=>{};
+  }
+}
