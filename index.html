@@ -9,10 +9,12 @@
     <link rel="stylesheet" href="./style.css">
   </head>
   <body>
-    <span>
+    <span class="top">
       <input id="url" placeholder="url" value="canvas.skycodee.pro" aria-label="Canvas server url">
       <span id="status">Disconnected</span>
+      <span style="flex:1"></span>
       <span id="pos">x: 0 y: 0</span>
+      <span style="flex:1"></span>
       <input id="size" placeholder="size" type="number" value="2048" aria-label="Canvas size">
       <input id="pixelated" type="checkbox" onchange="canvas.style['image-rendering']=(this.checked?'pixelated':'auto')" checked>
       <label for="pixelated">Pixelated?</label>
