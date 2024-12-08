@@ -220,13 +220,17 @@ var paintHeat = ()=>{};
 document.getElementById('hm').onchange = function(event){
   if (event.target.checked) {
     paintHeat = function(){
-      let max = ;
       let size = document.getElementById('size').value;
-      chroma.scale(['blue', 'green', 'yellow', 'red']).mode('rgb')(value).hex();
-      for (let i = 0; i<heatmap.length; i++) {
+      let max = 0;
+      for (let i = 0; i < size*size; i++) {
+        if (heatmap[i] > max) {
+          max = heatmap[i];
+        }
+      }
+      for (let i = 0; i<size*size; i++) {
         let x = i%size;
         let y = Math.floor(i/size);
-        setPixel(x, y, )
+        setPixel(x, y, ...chroma.scale(['blue', 'green', 'yellow', 'red']).mode('rgb')(heatmap[i]/max).rgb())
       }
     }
   } else {
