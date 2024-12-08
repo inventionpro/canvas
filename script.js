@@ -19,10 +19,14 @@ function connect() {
 
   wsr.onclose = function(){
     document.getElementById('status').innerText = 'Reconnecting';
+    wsr.onclose = null;
+    wsw.onclose = null;
     setTimeout(connect, 1000);
   }
   wsw.onclose = function(){
     document.getElementById('status').innerText = 'Reconnecting';
+    wsr.onclose = null;
+    wsw.onclose = null;
     setTimeout(connect, 1000);
   }
 
