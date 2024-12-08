@@ -75,10 +75,25 @@ document.getElementById('size').onchange = function(){
   connect();
 };
 
+let isMouseDown = false;
+window.addEventListener('mousedown', () => {
+  isMouseDown = true;
+  if (tool==='square') {
+    pp()
+  } else if (tool==='image') {
+    document.getElementById('file').click()
+  }
+});
+window.addEventListener('mouseup', () => {
+  isMouseDown = false;
+});
+window.addEventListener('mouseleave', () => {
+  isMouseDown = false;
+});
+
 let mousex = 0;
 let mousey = 0;
 let tool = 'pencil';
-let isMouseDown = false;
 canvas.onmousemove = function(event){
   let bound = canvas.getBoundingClientRect();
   let size = document.getElementById('size').value;
@@ -97,19 +112,12 @@ canvas.onmousemove = function(event){
   "b": ${parseInt(color.substr(5,2), 16)}
 }`)
 };
-window.addEventListener('mousedown', () => {
-  isMouseDown = true;
+canvas.addEventListener('mousedown', () => {
   if (tool==='square') {
     pp()
   } else if (tool==='image') {
     document.getElementById('file').click()
   }
-});
-window.addEventListener('mouseup', () => {
-  isMouseDown = false;
-});
-window.addEventListener('mouseleave', () => {
-  isMouseDown = false;
 });
 
 Array.from(document.querySelectorAll('.tools button')).forEach(e=>{
