@@ -84,7 +84,7 @@ canvas.onmousemove = function(event){
   let size = document.getElementById('size').value;
   mousex = Math.ceil((event.x-bound.left)/bound.width*size);
   mousey = Math.ceil((event.y-bound.top)/bound.height*size);
-  document.getElementById('pos').innerText = `x: ${x} y: ${y}`;
+  document.getElementById('pos').innerText = `x: ${mousex} y: ${mousey}`;
   if (tool!=='pencil') return;
   if (!isMouseDown) return;
   if (wsw?.readyState != WebSocket.OPEN) return;
