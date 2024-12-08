@@ -1,16 +1,21 @@
 const canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
+const hmcanvas = document.getElementById('heatmap');
+let hmctx = hmcanvas.getContext('2d');
 
-function setPixel(x, y, r, g, b) {
-  ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-  ctx.fillRect(x, y, 1, 1);
+function setPixel(x, y, r, g, b, ct) {
+  ct.fillStyle = `rgb(${r}, ${g}, ${b})`;
+  ct.fillRect(x, y, 1, 1);
 }
 
 let wsr;
 let wsw;
+let heatmap = new Array(2048*2048).fill(0);
 function connect() {
   if (wsr) wsr.close();
   if (wsw) wsw.close();
+  let size = document.getElementById('size').value;
+  heatmap = new Array(size*size).fill(0);
   let url = document.getElementById('url').value.split('://').slice(-1)[0].split('/')[0];
   wsr = new WebSocket('wss://'+url+'/ws/stream');
   wsr.binaryType = "arraybuffer";
@@ -62,7 +67,12 @@ function connect() {
       const blue = view.getUint8(offset++);
 
       // Store pixel data
-      setPixel(x, y, red, green, blue);
+      setPixel(x, y, red, green, blue, ctx);
+      let idx = x+(y*size);
+      if (idx<=size*size) {
+        heatmap[idk] += 1;
+        paintHeat();
+      }
     }
   };
 }
@@ -73,6 +83,8 @@ document.getElementById('size').onchange = function(){
   let size = document.getElementById('size').value;
   canvas.width = size;
   canvas.height = size;
+  hmcanvas.width = size;
+  hmcanvas.height = size;
   connect();
 };
 
@@ -203,3 +215,25 @@ setInterval(()=>{
     document.getElementById('color').value = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
   }
 }, 10)
+
+var paintHeat = ()=>{};
+document.getElementById('hm').onchange = function(event){
+  if (event.target.checked) {
+    paintHeat = function(){
+      let size = document.getElementById('size').value;
+      let max = 0;
+      for (let i = 0; i < size*size; i++) {
+        if (heatmap[i] > max) {
+          max = heatmap[i];
+        }
+      }
+      for (let i = 0; i<size*size; i++) {
+        let x = i%size;
+        let y = Math.floor(i/size);
+        setPixel(x, y, ...chroma.scale(['blue', 'green', 'yellow', 'red']).mode('rgb')(heatmap[i]/max).rgb())
+      }
+    }
+  } else {
+    paintHeat = ()=>{};
+  }
+}
