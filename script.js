@@ -1,9 +1,11 @@
 const canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
+const hmcanvas = document.getElementById('heatmap');
+let hmctx = hmcanvas.getContext('2d');
 
-function setPixel(x, y, r, g, b) {
-  ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-  ctx.fillRect(x, y, 1, 1);
+function setPixel(x, y, r, g, b, ct) {
+  ct.fillStyle = `rgb(${r}, ${g}, ${b})`;
+  ct.fillRect(x, y, 1, 1);
 }
 
 let wsr;
@@ -65,7 +67,7 @@ function connect() {
       const blue = view.getUint8(offset++);
 
       // Store pixel data
-      setPixel(x, y, red, green, blue);
+      setPixel(x, y, red, green, blue, ctx);
       let idx = x+(y*size);
       if (idx<=size*size) {
         heatmap[idk] += 1;
@@ -81,6 +83,8 @@ document.getElementById('size').onchange = function(){
   let size = document.getElementById('size').value;
   canvas.width = size;
   canvas.height = size;
+  hmcanvas.width = size;
+  hmcanvas.height = size;
   connect();
 };
 
@@ -215,7 +219,16 @@ setInterval(()=>{
 var paintHeat = ()=>{};
 document.getElementById('hm').onchange = function(event){
   if (event.target.checked) {
-    paintHeat = function(){}
+    paintHeat = function(){
+      let max = ;
+      let size = document.getElementById('size').value;
+      chroma.scale(['blue', 'green', 'yellow', 'red']).mode('rgb')(value).hex();
+      for (let i = 0; i<heatmap.length; i++) {
+        let x = i%size;
+        let y = Math.floor(i/size);
+        setPixel(x, y, )
+      }
+    }
   } else {
     paintHeat = ()=>{};
   }
