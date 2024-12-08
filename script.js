@@ -78,11 +78,6 @@ document.getElementById('size').onchange = function(){
 let isMouseDown = false;
 window.addEventListener('mousedown', () => {
   isMouseDown = true;
-  if (tool==='square') {
-    pp()
-  } else if (tool==='image') {
-    document.getElementById('file').click()
-  }
 });
 window.addEventListener('mouseup', () => {
   isMouseDown = false;
