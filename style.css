@@ -29,8 +29,16 @@ span {
   align-items: center;
 }
 
+#pos {
+  flex: 1;
+}
+
 .canvas-area {
   display: flex;
+}
+.tools {
+  display: grid;
+  grid-template-columns: auto auto;
 }
 canvas {
   display: block;
