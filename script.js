@@ -17,18 +17,15 @@ function connect() {
   wsw = new WebSocket('wss://'+url+'/ws/draw');
   document.getElementById('status').innerText = 'Connected';
 
-  wsr.onclose = function(){
+  function handleClose() {
     document.getElementById('status').innerText = 'Reconnecting';
-    wsr.onclose = null;
-    wsw.onclose = null;
+    wsr.removeEventListener("close", handleClose);
+    wsw.removeEventListener("close", handleClose);
     setTimeout(connect, 1000);
   }
-  wsw.onclose = function(){
-    document.getElementById('status').innerText = 'Reconnecting';
-    wsr.onclose = null;
-    wsw.onclose = null;
-    setTimeout(connect, 1000);
-  }
+
+  wsr.addEventListener("close", handleClose);
+  wsw.addEventListener("close", handleClose);
 
   wsr.onmessage = function(event) {
     let view = new DataView(event.data);
