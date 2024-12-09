@@ -218,6 +218,7 @@ setInterval(()=>{
 
 var paintHeat = ()=>{};
 document.getElementById('hm').onchange = function(event){
+  document.getElementById('heatmap').style.display = (event.target.checked ? '' : 'none');
   if (event.target.checked) {
     paintHeat = function(){
       let size = document.getElementById('size').value;

@@ -29,6 +29,9 @@ p {
   align-items: center;
   width: 55vw;
 }
+#size {
+  width: 50px;
+}
 
 .canvas-area {
   display: flex;
@@ -42,6 +45,7 @@ canvas {
   width: 95dvh;
   height: 95dvh;
 }
-#size {
-  width: 50px;
+#heatmap {
+  pointer-events: none;
+  position: absolute;
 }
